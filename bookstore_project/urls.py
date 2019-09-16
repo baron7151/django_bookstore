@@ -22,9 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # User Management
-    path('accounts/', include('django.contrib.auth.urls')),
+    # e.g. 'account_login','account_logout'
+    # 詳細は、https://github.com/pennersr/django-allauth/tree/master/allauth/account/urls.py
+    path('accounts/', include('allauth.urls')),
 
     # Local app
-    path('account/', include('users.urls')),
     path('', include('pages.urls')),
 ]
