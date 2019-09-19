@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '82wl8mswuard10$gfu&&9^3_-k05fwy+_!&ff6bu5aq-qww6*z'
+SECRET_KEY = os.environ.get('SECRET_KEY') # 82wl8mswuard10$gfu&&9^3_-k05fwy+_!&ff6bu5aq-qww6*z
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', default=0))
 
 ALLOWED_HOSTS = []
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # Local
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
+    'books.apps.BooksConfig',
 
 ]
 # django-allauth config
@@ -60,6 +61,8 @@ AUTHENTICATION_BACKENDS = (
     )
 # デフォルトではSMTPを使う設定になっているので、コンソールに出力するように設定
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'admin@djangobookstore.com' #email
 
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_USERNAME_REQUIRED = False

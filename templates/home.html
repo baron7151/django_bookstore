@@ -9,7 +9,6 @@
 <img class="bookcover" src ="{% static 'images/djangoforprofessionals.jpg' %}">
 {% if user.is_authenticated %}
     Hi {{ user.email }}!
-    <p>alfkjdsa</p>
     <p><a href="{% url 'account_logout' %}">Logout</a></p>
 {% else %}
     <p>You are not logged in</p>
