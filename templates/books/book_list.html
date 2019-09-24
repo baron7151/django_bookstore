@@ -1,6 +1,5 @@
 <!-- templates/registration/login.html-->
 {% extends '_base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}Books{% endblock title %}
 {% block content %}
@@ -9,4 +8,4 @@
             <h2><a href="{{book.get_absolute_url}}">{{ book.title }}</a></h2>
         </div>
     {% endfor %}
-{% endblock content %}5
+{% endblock content %}
