@@ -1,0 +1,16 @@
+# .gitignore
+#       git initとしたフォルダーに.gitignore ファイルを作れば、
+#       そこに書かれたファイルは git のバージョン管理から無視されます。
+
+# [書き方]
+#       行頭に # を書くとその行はコメントとみなされ、無視されます
+#       *.a         # .a ファイルは無視
+#       !lib.a          # しかし、lib.a ファイルだけは .a であっても追跡対象とします
+#       /TODO       # ルートディレクトリの TODO ファイルだけを無視し、サブディレクトリの TODO は無視しません
+#       build/      # build/ ディレクトリのすべてのファイルを無視します
+#       doc/*.txt   # doc/notes.txt は無視しますが、doc/server/arch.txt は無視しません
+#       file-a.php  # どのフォルダか問わず、file-a.phpを無視
+#       /file-a.php # .gitignoreが置かれたフォルダのfile-a.phpを無視
+#      git rm --cached <FILE_NAME> # git addした後は追跡対象になっているので、これをしてキャッシュをしないと追跡され続ける
+
+/docker-compose.yml
