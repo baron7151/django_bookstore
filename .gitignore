@@ -14,3 +14,4 @@
 #      git rm --cached <FILE_NAME> # git addした後は追跡対象になっているので、これをしてキャッシュをしないと追跡され続ける
 
 /docker-compose.yml
+/docker-compose-prod.yml

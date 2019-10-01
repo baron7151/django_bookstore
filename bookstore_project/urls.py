@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # Django admin
-    path('admin/', admin.site.urls),
+    path('admin-2019-44/', admin.site.urls),
     
     # User Management
     # e.g. 'account_login','account_logout'
@@ -34,3 +34,10 @@ urlpatterns = [
     path('orders/', include('orders.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns=\
+        urlpatterns + [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]

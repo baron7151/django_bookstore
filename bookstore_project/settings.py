@@ -25,7 +25,21 @@ SECRET_KEY = os.environ.get('SECRET_KEY') # 82wl8mswuard10$gfu&&9^3_-k05fwy+_!&f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = []
+ENVIRONMENT = os.environ.get('ENVIRONMENT', default='production')
+
+if ENVIRONMENT == 'production':
+    SECURE_BROWSER_XSS_FILTER = True  # XSS対策
+    X_FRAME_OPTIONS = 'DENY'  # ClickJacking対策
+    SECURE_SSL_REDIRECT = True  # httpをhttpsに強制的にredirect
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True  # cookieのSSL化
+    CSRF_COOKIE_SECURE = True  # CSRF対策
+
+
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -45,13 +59,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'debug_toolbar',
 
     # Local
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
     'books.apps.BooksConfig',
     'orders.apps.OrdersConfig',
-
 ]
 # django-allauth config
 SITE_ID = 1
@@ -74,6 +88,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -81,6 +96,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'bookstore_project.urls'
@@ -161,8 +178,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # 検索優先順位　プロジェクト＞アプリ
 STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder", #静的ファイルをSTATICFIELS_DIRで検索する設定
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder", #アプリレベルのstaticファイルの検索設定
+    "django.contrib.staticfiles.finders.FileSystemFinder",  # 静的ファイルをSTATICFIELS_DIRで検索する設定
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",  # アプリレベルのstaticファイルの検索設定
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser' #  new
@@ -176,5 +193,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Stripe
 STRIPE_TEST_PUBLISHABLE_KEY=os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
 STRIPE_TEST_SECRET_KEY=os.environ.get('STRIPE_TEST_SECRET_KEY')
+
+# django-debug-toolbar
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 
